@@ -1,4 +1,4 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 import os
 import sys
@@ -9,7 +9,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QInputDialog,QMessageBox
+from PyQt5.QtWidgets import QInputDialog, QMessageBox
 from album import album
 import fileutil
 
@@ -29,14 +29,15 @@ class kd163PhotoDownloader(QWidget):
 
         self.album_thread.blog_name = self.le_blog_name.text()
         self.catelog_items = self.album_thread.query_list()
+        self.lw_list.clear()
         for item in self.catelog_items:
-            self.lw_list.addItem("{}({})".format(item["name"],item["count"]))
+            self.lw_list.addItem("{}({})".format(item["name"], item["count"]))
 
     # ~ 生成个人的备份目录
-    def create_dir(self,blog_name):
+    def create_dir(self, blog_name):
         path = self.le_path.text()
         if path.rindex("/") + 1 != len(path):
-            path +="/"
+            path += "/"
         self.backup_dir = path + blog_name + "的相册/"
         self.album_thread.backup_dir = self.backup_dir
         fileutil.check_and_create_dir(self.backup_dir)
@@ -67,7 +68,7 @@ class kd163PhotoDownloader(QWidget):
         text_list = self.lw_list.selectedItems()
         selected_albums = [i.text() for i in list(text_list)]
         if len(selected_albums) == 0:
-            QMessageBox.information(self, "提示",   "请先选择相册", QMessageBox.Yes )
+            QMessageBox.information(self, "提示", "请先选择相册", QMessageBox.Yes)
             return
 
         # ~ 启动下载线程
@@ -79,7 +80,6 @@ class kd163PhotoDownloader(QWidget):
         webbrowser.open_new_tab(
             "http://photo.163.com/{}".format(self.le_blog_name.text())
         )
-
 
 
 if __name__ == "__main__":

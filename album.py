@@ -70,7 +70,7 @@ class album(QThread):
     def query_list(self):
         self.show_status_signal.emit("开始获取相册目录")
 
-        fileutil.check_and_create_dir(self.backup_dir + self.source_dir )
+        fileutil.check_and_create_dir(self.backup_dir + self.source_dir)
         self.get_userspace_url()
         catelog_outline_info = "相册总数:{},图片总数:{},用户id:{}\n相册目录地址:http://{}".format(
             self.albumCount, self.photoCount, self.userId, self.cacheFileUrl
@@ -84,7 +84,7 @@ class album(QThread):
                 item["name"], item["count"], item["desc"], item["idd"]
             )
         self.show_status_signal.emit(catelog_detail_info)
-        self.catelog_items  = catelog_items
+        self.catelog_items = catelog_items
         return catelog_items
 
     def run(self):
@@ -99,7 +99,7 @@ class album(QThread):
     def down_album_source(self):
         album_count = len(self.selected_albums)
 
-        fileutil.check_and_create_dir(self.backup_dir + self.source_dir )
+        fileutil.check_and_create_dir(self.backup_dir + self.source_dir)
 
         for i, selected_item in enumerate(self.selected_albums):
             item = self.get_single_album_detail_info(selected_item)
@@ -120,10 +120,10 @@ class album(QThread):
                     "系统异常:" + str(sys.exc_info()[1]) + "\n单个相册下载失败,相册:" + item["name"]
                 )
 
-    def get_single_album_detail_info(self,seleted_item_name):
+    def get_single_album_detail_info(self, seleted_item_name):
         item_name = None
-        for item in self.catelog_items :
-            item_name = "{}({})".format(item["name"],item["count"])
+        for item in self.catelog_items:
+            item_name = "{}({})".format(item["name"], item["count"])
             if item_name == seleted_item_name:
                 return item
 
@@ -131,12 +131,14 @@ class album(QThread):
         if item["purl"].strip() != "":
             print(
                 "cd {};wget http://{} -O {}.txt".format(
-                    self.backup_dir + self.source_dir , item["purl"], item["name"]
+                    self.backup_dir + self.source_dir, item["purl"], item["name"]
                 )
             )
             os.system(
                 "cd {};wget http://{} -O {}.txt".format(
-                    self.backup_dir + self.source_dir , item["purl"], item["name"].strip()
+                    self.backup_dir + self.source_dir,
+                    item["purl"],
+                    item["name"].strip(),
                 )
             )
 
@@ -173,7 +175,7 @@ class album(QThread):
                         print("下载图片:{},{}".format(photo["desc"], photo["murl"]))
                         self.show_status_signal.emit(
                             "相册:{},{}/{},图片:{}".format(
-                                item["name"], i+1, len(photos), photo["desc"]
+                                item["name"], i + 1, len(photos), photo["desc"]
                             )
                         )
                         with open(
@@ -193,16 +195,16 @@ class album(QThread):
 
     # ~ 获取相册目录
     def get_catelog_info(self):
-        fileutil.check_and_create_dir(self.backup_dir + self.source_dir )
+        fileutil.check_and_create_dir(self.backup_dir + self.source_dir)
         print(self.cacheFileUrl)
         print(
             "cd {};wget http://{} -O {}.txt".format(
-                self.backup_dir + self.source_dir , self.cacheFileUrl, "catelog_info.txt"
+                self.backup_dir + self.source_dir, self.cacheFileUrl, "catelog_info.txt"
             )
         )
         os.system(
             "cd {};wget http://{} -O {}.txt".format(
-                self.backup_dir + self.source_dir , self.cacheFileUrl, "catelog_info"
+                self.backup_dir + self.source_dir, self.cacheFileUrl, "catelog_info"
             )
         )
 
