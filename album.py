@@ -88,12 +88,12 @@ class album(QThread):
         return catelog_items
 
     def run(self):
-        try:
-            self.down_album_source()
-            self.show_status_signal.emit("下载相册结束")
-        except:
-            print(sys.exc_info())
-            self.show_status_signal.emit("系统异常:" + str(sys.exc_info()[1]) + "\n下载失败")
+        # ~ try:
+        self.down_album_source()
+        self.show_status_signal.emit("下载相册结束")
+        # ~ except:
+            # ~ print(sys.exc_info())
+            # ~ self.show_status_signal.emit("系统异常:" + str(sys.exc_info()[1]) + "\n下载失败")
 
     # ~ 下载原始数据
     def down_album_source(self):
@@ -160,9 +160,15 @@ class album(QThread):
 
                 if len(photos) > 0:
                     fileutil.check_and_create_dir(self.backup_dir + item["name"])
+                sub_domain = "ph"
+                img_url =""
                 for i, photo in enumerate(photos):
                     try:
-                        r = requests.get(self.img_url_prex + photo["murl"][1:])
+                        if photo["murl"].find("/photo/") > 0 :
+                            img_url="http://img{}.bimg.126.net{}".format(photo["murl"][0:1],photo["murl"][1:])
+                        else:
+                            img_url="http://img{}.ph.126.net{}".format(photo["murl"][0:1],photo["murl"][1:])
+                        r = requests.get(img_url)
                         if photo["desc"] == "":
                             slash_index = photo["murl"].rindex("/")
                             photo["desc"] = photo["murl"][slash_index:]
@@ -172,7 +178,7 @@ class album(QThread):
                                 photo["desc"].replace(".JPG", "")
                                 + photo["murl"][slash_index:]
                             )
-                        print("下载图片:{},{}".format(photo["desc"], photo["murl"]))
+                        print("下载图片:{},{}".format(photo["desc"], img_url))
                         self.show_status_signal.emit(
                             "相册:{},{}/{},图片:{}".format(
                                 item["name"], i + 1, len(photos), photo["desc"]

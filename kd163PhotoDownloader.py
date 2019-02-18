@@ -71,6 +71,7 @@ class kd163PhotoDownloader(QWidget):
             QMessageBox.information(self, "提示", "请先选择相册", QMessageBox.Yes)
             return
 
+        self.add_show_info("开始下载相册:" + ",".join(selected_albums))
         # ~ 启动下载线程
         self.album_thread.selected_albums = selected_albums
         self.album_thread.start()
