@@ -1,7 +1,7 @@
 # coding=utf-8
 import requests
 import os
-import fileutil
+from . import fileutil
 import re
 import time
 import json

@@ -1,0 +1,4 @@
+include kd163PhotoDownloader/README.md
+include kd163PhotoDownloader/LICENSE
+include kd163PhotoDownloader/*.ui
+include kd163PhotoDownloader/doc/*

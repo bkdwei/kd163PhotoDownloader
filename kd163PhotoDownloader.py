@@ -1,4 +1,5 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+#-*- coding:utf-8 -*-
 
 import os
 import sys
@@ -10,14 +11,14 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QInputDialog, QMessageBox
-from album import album
-import fileutil
+from .album import album
+from .fileutil import get_file_realpath,check_and_create_dir
 
 
 class kd163PhotoDownloader(QWidget):
     def __init__(self):
         super().__init__()
-        loadUi("kd163PhotoDownloader.ui", self)
+        loadUi(get_file_realpath("kd163PhotoDownloader.ui"), self)
         self.user_id = None
         self.album_thread = album()
         self.album_thread.show_status_signal.connect(self.add_show_info)
@@ -40,7 +41,7 @@ class kd163PhotoDownloader(QWidget):
             path += "/"
         self.backup_dir = path + blog_name + "的相册/"
         self.album_thread.backup_dir = self.backup_dir
-        fileutil.check_and_create_dir(self.backup_dir)
+        check_and_create_dir(self.backup_dir)
 
     def add_show_info(self, msg):
         self.tb_result.append(msg)
@@ -82,9 +83,12 @@ class kd163PhotoDownloader(QWidget):
             "http://photo.163.com/{}".format(self.le_blog_name.text())
         )
 
-
-if __name__ == "__main__":
+def main():
     app = QtWidgets.QApplication(sys.argv)
     win = kd163PhotoDownloader()
     win.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
