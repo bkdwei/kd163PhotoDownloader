@@ -134,14 +134,16 @@ class album(QThread):
                     self.backup_dir + self.source_dir, item["purl"], item["name"]
                 )
             )
-            os.system(
-                "cd {};wget http://{} -O {}.txt".format(
-                    self.backup_dir + self.source_dir,
-                    item["purl"],
-                    item["name"].strip(),
-                )
-            )
-
+#             os.system(
+#                 "cd {};wget http://{} -O {}.txt".format(
+#                     self.backup_dir + self.source_dir,
+#                     item["purl"],
+#                     item["name"].strip(),
+#                 )
+#             )
+            r = requests.get("http://" + item["purl"])
+            with open(self.backup_dir + "相册原始数据/{}.txt".format(item["name"].strip()), "wb") as fw:
+                fw.write(r.content)
             with open(
                 self.backup_dir + "相册原始数据/{}.txt".format(item["name"].strip()),
                 "r+",
@@ -208,12 +210,15 @@ class album(QThread):
                 self.backup_dir + self.source_dir, self.cacheFileUrl, "catelog_info.txt"
             )
         )
-        os.system(
-            "cd {};wget http://{} -O {}.txt".format(
-                self.backup_dir + self.source_dir, self.cacheFileUrl, "catelog_info"
-            )
-        )
+#         os.system(
+#             "cd {};wget http://{} -O {}.txt".format(
+#                 self.backup_dir + self.source_dir, self.cacheFileUrl, "catelog_info"
+#             )
+#         )
 
+        r = requests.get("http://" + self.cacheFileUrl)
+        with open(self.backup_dir + "相册原始数据/catelog_info.txt", "wb") as fw:
+            fw.write(r.content)
         with open(
             self.backup_dir + "相册原始数据/catelog_info.txt", "r", encoding="gb2312"
         ) as f:

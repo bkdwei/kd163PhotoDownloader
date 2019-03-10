@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QInputDialog, QMessageBox
+from PyQt5.QtWidgets import QInputDialog, QMessageBox,QFileDialog
 from .album import album
 from .fileutil import get_file_realpath,check_and_create_dir
 
@@ -23,6 +23,7 @@ class kd163PhotoDownloader(QWidget):
         self.album_thread = album()
         self.album_thread.show_status_signal.connect(self.add_show_info)
 
+#     获取相册列表
     @pyqtSlot()
     def on_pb_query_list_clicked(self):
         blog_name = self.le_blog_name.text()
@@ -83,6 +84,12 @@ class kd163PhotoDownloader(QWidget):
             "http://photo.163.com/{}".format(self.le_blog_name.text())
         )
 
+    @pyqtSlot()
+    def on_pb_save_path_clicked(self):
+        filename = QFileDialog.getExistingDirectory(self,"选择保存位置",self.le_path.text())
+        if filename:
+            self.le_path.setText(filename)
+        
 def main():
     app = QtWidgets.QApplication(sys.argv)
     win = kd163PhotoDownloader()
