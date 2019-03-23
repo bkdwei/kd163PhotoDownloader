@@ -11,12 +11,12 @@
 
 
 # 使用说明
-![网易相册下载工具截图](https://github.com/bkdwei/kd163PhotoDownloader/blob/master/doc/screenshot-dfc607b6.png "截图")
+![网易相册下载工具截图](/kd163PhotoDownloader/doc/screenshot-dfc607b6.png "截图")
 
 # 截图
 [去官网查看截图](https://github.com/bkdwei/kd163PhotoDownloader)
 
-![kd163PhotoDownloader_screenshot](https://github.com/bkdwei/kd163PhotoDownloader/blob/master/doc/kd163PhotoDownloader_screenshot.png "截图")
+![kd163PhotoDownloader_screenshot](/kd163PhotoDownloader/doc/kd163PhotoDownloader_screenshot.png "截图")
 
 # 依赖项
 - Python3
