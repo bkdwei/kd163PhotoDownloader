@@ -1,7 +1,4 @@
 include README.md
 include LICENSE
-include main.py
 include install_script.py
-include script/*
 include kd163PhotoDownloader/*.ui
-include kd163PhotoDownloader/doc/*
