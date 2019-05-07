@@ -257,11 +257,11 @@ class album(QThread):
         with open(self.backup_dir + self.album_catelog_file, "w+") as f:
             f.write(r.text)
             print("下载相册的原始数据成功\n开始解析原始数据")
-            self.albumCount = re.search(r"(?<=albumCount:).+?(?=,)", r.text)[0]
-            self.photoCount = re.search(r"(?<=photoCount:).+?(?=,)", r.text)[0]
-            self.userId = re.search(r"(?<=userId:).+?(?=,)", r.text)[0]
-            self.usedSpace = re.search(r"(?<=usedSpace:).+?(?=,)", r.text)[0]
-            self.cacheFileUrl = re.search(r'(?<=cacheFileUrl:").+?(?=",)', r.text)[0]
+            self.albumCount = re.findall(r"(?<=albumCount:).+?(?=,)", r.text)[0]
+            self.photoCount = re.findall(r"(?<=photoCount:).+?(?=,)", r.text)[0]
+            self.userId = re.findall(r"(?<=userId:).+?(?=,)", r.text)[0]
+            self.usedSpace = re.findall(r"(?<=usedSpace:).+?(?=,)", r.text)[0]
+            self.cacheFileUrl = re.findall(r'(?<=cacheFileUrl:").+?(?=",)', r.text)[0]
             print(self)
 
     # ~ 将时间戳转换成格式化的字符串
